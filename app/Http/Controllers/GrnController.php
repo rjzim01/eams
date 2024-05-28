@@ -51,7 +51,7 @@ class GrnController extends Controller
         $data['totla_amount'] = $request->total_amount;
         $data['uom_id'] = $request->uom_id;
         $data['stock_status'] = $request->stock_status;
-        $data['item_type'] = $request->item_type;
+        //$data['item_type'] = $request->item_type;
 
         $data['user_id'] = Auth::user()->id;
         $data['updated_by'] = Auth::user()->id;
@@ -59,7 +59,7 @@ class GrnController extends Controller
         $grns = Grn::insert($data);
 
         if ($grns) {
-            return redirect()->route('maintenanceschdule-view')->with('message', 'Maintenanceschdule view added Successfully');
+            return redirect()->route('grn-list')->with('message', 'GRN added Successfully');
 
         } else {
             return redirect()->back();
@@ -67,25 +67,24 @@ class GrnController extends Controller
     }
     function grnList(Request $request)
     {
-        //$meters = Maintenanceschdule::with('assetitem', 'user')->orderBy('id', 'desc')->get();
-        $maintenanceschdule = Grn::orderBy('id', 'desc')->get();
+        $grn = Grn::with('categorymodel', 'assetitem_po_mst', 'spareparts_po_mst', 'spartpart', 'brand', 'user')->orderBy('id', 'desc')->get();
 
         $userrole = Auth::user()->rollmanage_id;
         $roleaccess = Objecttorole::with('user', 'manageobject')
             ->where('rollmanage_id', '=', $userrole)->get();
 
-        return view("pages.grn.grn-list", compact('roleaccess', 'maintenanceschdule'));
+        return view("pages.grn.grn-list", compact('roleaccess', 'grn'));
 
     }
     public function grnEdit($id)
     {
-        $maintenanceschdule = Grn::where('id', $id)->first();
+        $grn = Grn::where('id', $id)->first();
 
         $userrole = Auth::user()->rollmanage_id;
         $roleaccess = Objecttorole::with('user', 'manageobject')
             ->where('rollmanage_id', '=', $userrole)->get();
 
-        return view("pages.grn.grn-edit", compact('roleaccess', 'maintenanceschdule'));
+        return view("pages.grn.grn-edit", compact('roleaccess', 'grn'));
     }
 
     public function grnUpate(Request $request)
@@ -96,14 +95,15 @@ class GrnController extends Controller
         // ]);
 
         $data = [];
-        $data['maint_date'] = $request->maintain_date;
-        $data['maint_sts'] = $request->maintain_status;
-        $data['totla_amount'] = $request->total_amount;
+        $data['unit_price'] = $request->unit_price;
+        $data['quantity'] = $request->quantity;
+        $data['totla_amount'] = $request->totla_amount;
+        $data['stock_status'] = $request->stock_status;
 
         $update = Grn::where('id', $request->id)->limit(1)->update($data);
 
         if ($update) {
-            return redirect()->route('maintenanceschdule-view')->with('message', 'Maintenance Schdule Updated Successfully');
+            return redirect()->route('grn-list')->with('message', 'GRN Updated Successfully');
 
         } else {
             return redirect()->back();
@@ -111,9 +111,9 @@ class GrnController extends Controller
     }
     public function grnDelete($id)
     {
-        $maintenanceschdule = Grn::find($id)->delete();
-        if ($maintenanceschdule) {
-            return redirect()->route('maintenanceschdule-view')->with('message', 'Data deleted successfully');
+        $grn = Grn::find($id)->delete();
+        if ($grn) {
+            return redirect()->route('grn-list')->with('message', 'Data deleted successfully');
         } else {
             return redirect()->back();
         }

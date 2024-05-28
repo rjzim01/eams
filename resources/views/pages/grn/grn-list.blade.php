@@ -14,11 +14,11 @@
 
     <main id="main" class="main">
         <div class="pagetitle">
-            <h1>Maintenanceschedule Dashboard</h1>
+            <h1>GRN Dashboard</h1>
             <nav>
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item"><a href="#">Home</a></li>
-                    <li class="breadcrumb-item active">Maintenance Schedule List</li>
+                    <li class="breadcrumb-item active">GRN List</li>
                 </ol>
             </nav>
         </div>
@@ -29,7 +29,7 @@
                 <div class="col-lg-12">
                     <div class="card c-shadow">
                         <div class="card-body">
-                            <h5 class="card-title">Maintenance Schedule List</h5>
+                            <h5 class="card-title">GRN List</h5>
 
                             <!-- Table with stripped rows -->
                             <table id="datatable" class="table table-striped table-bordered datatable">
@@ -40,34 +40,46 @@
                                         <th scope="col">Sl#</th>
                                         <th scope="col">id</th> 
                                         --}}
-                                        <th scope="col">Asset No</th>
-                                        <th scope="col">Maintain Date</th>
-                                        <th scope="col">Maintain Status</th>
+                                        <th scope="col">Assetitem Po</th>
+                                        <th scope="col">Spareparts Po</th>
+                                        <th scope="col">Category Model</th>
+                                        <th scope="col">Spart Parts</th>
+                                        <th scope="col">Brand</th>
+                                        <th scope="col">Unit Price</th>
+                                        <th scope="col">Quantity</th>
                                         <th scope="col">Total Amount</th>
                                         <th scope="col">Uom Id</th>
+                                        <th scope="col">Stock Status</th>
+                                        {{-- <th scope="col">Item Type</th> --}}
 
                                         <th scope="col">Actions</th>
 
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @foreach ($maintenanceschdule as $result)
+                                    @foreach ($grn as $result)
                                         <tr>
                                             {{-- 
                                             <th class="text-center" scope="row">{{  $loop->iteration }}</th>
                                             <td>{{  $result->id }}</td>  
                                             --}}
-                                            <td>{{ $result->assetitem->asset_no }}</td>
-                                            <td>{{ $result->maint_date }}</td>
-                                            <td>{{ $result->maint_sts }}</td>
+                                            <td>{{ $result->assetitem_po_mst->po_gen_id }}</td>
+                                            <td>{{ $result->spareparts_po_mst->po_gen_id }}</td>
+                                            <td>{{ $result->categorymodel->name }}</td>
+                                            <td>{{ $result->spartpart->name }}</td>
+                                            <td>{{ $result->brand->name }}</td>
+                                            <td>{{ $result->unit_price }}</td>
+                                            <td>{{ $result->quantity }}</td>
                                             <td>{{ $result->totla_amount }}</td>
                                             <td>{{ $result->uom_id }}</td>
+                                            <td>{{ $result->stock_status }}</td>
+                                            {{-- <td>{{ $result->item_type }}</td> --}}
                                             <td class="text-center">
-                                                <a href="{{ route('maintenanceSchdule-edit', $result->id) }}"><span
+                                                <a href="{{ route('grn-edit', $result->id) }}"><span
                                                         class="badge rounded-pill text-bg-warning">Edit</span></a>
 
                                                 <a onclick="return confirm('Are you sure to delete ?')"
-                                                    href="{{ url('meter-delete/' . $result->id) }}"
+                                                    href="{{ url('grn-delete/' . $result->id) }}"
                                                     class="badge rounded-pill text-bg-danger">Delete</a>
 
                                             </td>

@@ -204,7 +204,7 @@
                                         <input type="text" placeholder="Stock Status"
                                             class="form-control formsrow" name ="stock_status" required>
                                     </div>
-
+                                    {{-- 
                                     <div class="col-3 text-end">
                                         <label class="form-label formsrow">Item Type<span
                                                 style="color:red">*</span></label>
@@ -212,7 +212,8 @@
                                     <div class="col-9 text-end">
                                         <input type="text" placeholder="Item Type" class="form-control formsrow"
                                             name ="item_type" required>
-                                    </div>
+                                    </div> 
+                                    --}}
 
                                     <div class="col-4"></div>
 
@@ -261,7 +262,7 @@
                                         <th scope="col">Total Amount</th>
                                         <th scope="col">Uom Id</th>
                                         <th scope="col">Stock Status</th>
-                                        <th scope="col">Item Type</th>
+                                        {{-- <th scope="col">Item Type</th> --}}
 
                                         <th scope="col">Actions</th>
 
@@ -282,13 +283,13 @@
                                             <td>{{ $result->totla_amount }}</td>
                                             <td>{{ $result->uom_id }}</td>
                                             <td>{{ $result->stock_status }}</td>
-                                            <td>{{ $result->item_type }}</td>
+                                            {{-- <td>{{ $result->item_type }}</td> --}}
                                             <td class="text-center">
-                                                <a href="{{ route('maintenanceSchdule-edit', $result->id) }}"><span
+                                                <a href="{{ route('grn-edit', $result->id) }}"><span
                                                         class="badge rounded-pill text-bg-warning">Edit</span></a>
 
                                                 <a onclick="return confirm('Are you sure to delete ?')"
-                                                    href="{{ url('meter-delete/' . $result->id) }}"
+                                                    href="{{ url('grn-delete/' . $result->id) }}"
                                                     class="badge rounded-pill text-bg-danger">Delete</a>
 
                                             </td>

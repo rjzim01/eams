@@ -14,11 +14,11 @@
 
     <main id="main" class="main">
         <div class="pagetitle">
-            <h1>Maintenanceschedule Dashboard</h1>
+            <h1>GRN Dashboard</h1>
             <nav>
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item"><a href="#">Home</a></li>
-                    <li class="breadcrumb-item active">Maintenanceschedule Edit</li>
+                    <li class="breadcrumb-item active">GRN Edit</li>
                 </ol>
             </nav>
         </div>
@@ -47,29 +47,29 @@
                                     </ul>
                                 </div>
                             @endif
-                            <form action='{{ route('maintenanceschdule-update') }}' method="post"
-                                class="row g-3 needs-validation" novalidate>
+                            <form action='{{ route('grn-update') }}' method="post" class="row g-3 needs-validation"
+                                novalidate>
                                 @csrf
-                                <input type="hidden" name="id" value="{{ $maintenanceschdule->id }}">
+                                <input type="hidden" name="id" value="{{ $grn->id }}">
                                 <div class="row mt-5">
 
                                     <div class="col-3 text-end">
-                                        <label class="form-label formsrow">Maintain Date<span
+                                        <label class="form-label formsrow">Unit Price<span
                                                 style="color:red">*</span></label>
                                     </div>
                                     <div class="col-5 text-end">
-                                        <input type="date" value="{{ $maintenanceschdule->maint_date }}"
-                                            class="form-control formsrow" name ="maintain_date" required>
+                                        <input type="number" value="{{ $grn->unit_price }}"
+                                            class="form-control formsrow" name ="unit_price" required>
                                     </div>
                                     <div class="col-4"></div>
 
                                     <div class="col-3  text-end">
-                                        <label for="address" class="form-label formsrow">Status<span
+                                        <label class="form-label formsrow">Quantity<span
                                                 style="color:red">*</span></label>
                                     </div>
                                     <div class="col-9 text-end">
-                                        <input type="text" value="{{ $maintenanceschdule->maint_sts }}"
-                                            class="form-control formsrow" name ="maintain_status" required>
+                                        <input type="number" value="{{ $grn->quantity }}" class="form-control formsrow"
+                                            name ="quantity" required>
                                     </div>
 
                                     {{-- <div class="col-4"></div> --}}
@@ -79,8 +79,17 @@
                                                 style="color:red">*</span></label>
                                     </div>
                                     <div class="col-9 text-end">
-                                        <input type="number" value="{{ $maintenanceschdule->totla_amount }}"
-                                            class="form-control formsrow" name ="total_amount" required>
+                                        <input type="number" value="{{ $grn->totla_amount }}"
+                                            class="form-control formsrow" name ="totla_amount" required>
+                                    </div>
+
+                                    <div class="col-3  text-end">
+                                        <label class="form-label formsrow">Stock Status<span
+                                                style="color:red">*</span></label>
+                                    </div>
+                                    <div class="col-9 text-end">
+                                        <input type="text" value="{{ $grn->stock_status }}"
+                                            class="form-control formsrow" name ="stock_status" required>
                                     </div>
 
                                     <div class="col-4"></div>
@@ -93,8 +102,7 @@
                                         <div class="col-5">
                                             <button class="btn btn-success mybutton" type="submit">Update</button>
 
-                                            <button class="btn btn-info mybutton"><a
-                                                    href="{{ route('maintenanceschdule-view') }}">
+                                            <button class="btn btn-info mybutton"><a href="{{ route('grn-list') }}">
                                                     Return</a></button>
                                         </div>
                                         <div class="col-4"></div>
