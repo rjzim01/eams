@@ -89,14 +89,14 @@
 
                                     <div class="col-4"></div>
 
-                                    <div class="col-3  text-end">
+                                    {{-- <div class="col-3  text-end">
                                         <label class="form-label formsrow">Maintain Status<span
                                                 style="color:red">*</span></label>
                                     </div>
                                     <div class="col-9 text-end">
                                         <input type="text" placeholder="Status" class="form-control formsrow"
                                             name ="maintain_status" required>
-                                    </div>
+                                    </div> --}}
 
                                     {{-- <div class="col-4"></div> --}}
 

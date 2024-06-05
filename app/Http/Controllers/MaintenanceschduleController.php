@@ -36,7 +36,7 @@ class MaintenanceschduleController extends Controller
         $data = [];
         $data['assetitem_id'] = $request->assetitem_id;
         $data['maint_date'] = $request->maintain_date;
-        $data['maint_sts'] = $request->maintain_status;
+        //$data['maint_sts'] = 'pending';
         $data['totla_amount'] = $request->total_amount;
         $data['uom_id'] = $request->uom_id;
         $data['workshop_id'] = $request->workshop_id;
