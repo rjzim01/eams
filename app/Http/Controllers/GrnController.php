@@ -50,11 +50,11 @@ class GrnController extends Controller
         $data['quantity'] = $request->quantity;
         $data['totla_amount'] = $request->total_amount;
         $data['uom_id'] = $request->uom_id;
-        $data['stock_status'] = $request->stock_status;
+        //$data['stock_status'] = $request->stock_status;
         //$data['item_type'] = $request->item_type;
 
         $data['user_id'] = Auth::user()->id;
-        $data['updated_by'] = Auth::user()->id;
+        //$data['updated_by'] = Auth::user()->id;
 
         $grns = Grn::insert($data);
 
