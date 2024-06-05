@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Grn;
 use App\Models\Uom;
 use App\Models\Brand;
+use App\Models\Company;
 use App\Models\Spartpart;
 use App\Models\Objecttorole;
 use Illuminate\Http\Request;
@@ -31,14 +32,19 @@ class GrnController extends Controller
         $roleaccess = Objecttorole::with('user', 'manageobject')
             ->where('rollmanage_id', '=', $userrole)->get();
 
+        $company = Company::where('name', '=', Auth::user()->company_name)->get();
+        //$comid = $company[0]->id;
+
         //return view("pages.meterPages.meter-create", compact('roleaccess', 'meters', 'assets'));
-        return view("pages.grn.grn-create", compact('roleaccess', 'grn', 'asset_item_po_mst', 'spareparts_po_mst', 'category_model', 'spartpart', 'brand', 'umos'));
+        return view("pages.grn.grn-create", compact('roleaccess', 'grn', 'asset_item_po_mst', 'spareparts_po_mst', 'category_model', 'spartpart', 'brand', 'umos', 'company'));
     }
     public function grnStore(Request $request)
     {
         // $request->validate([
 
         // ]);
+
+
 
         $data = [];
         $data['assetitem_po_mst_id'] = $request->assetitem_po_id;
@@ -54,6 +60,7 @@ class GrnController extends Controller
         //$data['item_type'] = $request->item_type;
 
         $data['user_id'] = Auth::user()->id;
+        $data['company_id'] = $request->company_id;
         //$data['updated_by'] = Auth::user()->id;
 
         $grns = Grn::insert($data);

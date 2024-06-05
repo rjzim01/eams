@@ -196,6 +196,9 @@
 
                                     <div class="col-4"></div>
 
+                                    <input type="hidden" class="form-control my-border formsrow"
+                                        value="{{ $company[0]->id }}" name ="company_id" id="company_id">
+
                                     {{-- <div class="col-3 text-end">
                                         <label class="form-label formsrow">Stock Status<span
                                                 style="color:red">*</span></label>
