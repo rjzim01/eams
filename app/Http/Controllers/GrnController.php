@@ -6,11 +6,13 @@ use App\Models\Grn;
 use App\Models\Uom;
 use App\Models\Brand;
 use App\Models\Company;
+use App\Models\Assetitem;
 use App\Models\Spartpart;
 use App\Models\Objecttorole;
 use Illuminate\Http\Request;
 use App\Models\Categorymodel;
 use App\Models\Assetitem_po_mst;
+use App\Models\Assetitem_po_dtl;
 use App\Models\Spareparts_po_mst;
 use Illuminate\Support\Facades\Auth;
 
@@ -21,6 +23,7 @@ class GrnController extends Controller
         $grn = Grn::with('categorymodel', 'assetitem_po_mst', 'spareparts_po_mst', 'spartpart', 'brand', 'user')->orderBy('id', 'desc')->get();
         //$grn = Grn::orderBy('id', 'desc')->get();
         $asset_item_po_mst = Assetitem_po_mst::get();
+        $asset_item_po_dtls = Assetitem_po_dtl::get();
         $spareparts_po_mst = Spareparts_po_mst::get();
         $category_model = Categorymodel::get();
         $spartpart = Spartpart::get();
@@ -36,7 +39,7 @@ class GrnController extends Controller
         //$comid = $company[0]->id;
 
         //return view("pages.meterPages.meter-create", compact('roleaccess', 'meters', 'assets'));
-        return view("pages.grn.grn-create", compact('roleaccess', 'grn', 'asset_item_po_mst', 'spareparts_po_mst', 'category_model', 'spartpart', 'brand', 'umos', 'company'));
+        return view("pages.grn.grn-create", compact('roleaccess', 'grn', 'asset_item_po_mst', 'asset_item_po_dtls', 'spareparts_po_mst', 'category_model', 'spartpart', 'brand', 'umos', 'company'));
     }
     public function grnStore(Request $request)
     {
@@ -44,10 +47,9 @@ class GrnController extends Controller
 
         // ]);
 
-
-
         $data = [];
         $data['assetitem_po_mst_id'] = $request->assetitem_po_id;
+        $data['assetitem_po_dtls_id'] = $request->assetitem_po_dtls_id;
         $data['spareparts_po_mst_id'] = $request->spareparts_po_id;
         $data['categorymodel_id'] = $request->category_model_id;
         $data['spartpart_id'] = $request->spare_parts_id;

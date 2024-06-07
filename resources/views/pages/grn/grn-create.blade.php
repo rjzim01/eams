@@ -59,7 +59,7 @@
                                 <div class="row mt-5">
 
                                     <div class="col-3 text-end">
-                                        <label for="name" class="form-label formsrow">Assetitem Po <span
+                                        <label for="name" class="form-label formsrow">Assetitem Po Msts<span
                                                 style="color:red">*</span></label>
                                     </div>
 
@@ -69,6 +69,24 @@
                                             <option selected disabled value="">Choose Asset</option>
                                             @foreach ($asset_item_po_mst as $asset)
                                                 <option value="{{ $asset->id }}">{{ $asset->po_gen_id }} </option>
+                                            @endforeach
+                                        </select>
+
+                                    </div>
+
+                                    <div class="col-4"></div>
+
+                                    <div class="col-3 text-end">
+                                        <label for="name" class="form-label formsrow">Assetitem Po Dtls<span
+                                                style="color:red">*</span></label>
+                                    </div>
+
+                                    <div class="col-5 text-end mb-2">
+
+                                        <select class="form-select " name="assetitem_po_dtls_id" required>
+                                            <option selected disabled value="">Choose Asset</option>
+                                            @foreach ($asset_item_po_dtls as $asset)
+                                                <option value="{{ $asset->id }}">{{ $asset->id }} </option>
                                             @endforeach
                                         </select>
 

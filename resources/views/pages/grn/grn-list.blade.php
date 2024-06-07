@@ -48,7 +48,7 @@
                                         <th scope="col">Unit Price</th>
                                         <th scope="col">Quantity</th>
                                         <th scope="col">Total Amount</th>
-                                        <th scope="col">Uom Id</th>
+                                        {{-- <th scope="col">Uom Id</th> --}}
                                         <th scope="col">Stock Status</th>
                                         {{-- <th scope="col">Item Type</th> --}}
 
@@ -71,7 +71,7 @@
                                             <td>{{ $result->unit_price }}</td>
                                             <td>{{ $result->quantity }}</td>
                                             <td>{{ $result->totla_amount }}</td>
-                                            <td>{{ $result->uom_id }}</td>
+                                            {{-- <td>{{ $result->uom_id }}</td> --}}
                                             <td>{{ $result->stock_status }}</td>
                                             {{-- <td>{{ $result->item_type }}</td> --}}
                                             <td class="text-center">
