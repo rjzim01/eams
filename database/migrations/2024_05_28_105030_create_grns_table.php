@@ -19,7 +19,7 @@ return new class extends Migration {
             $table->string('brand_id')->nullable();
             $table->string('unit_price')->nullable();
             $table->string('quantity')->nullable();
-            $table->string('totla_amount')->nullable();
+            $table->string('total_amount')->nullable();
             $table->string('uom_id')->nullable();
             $table->string('stock_status')->nullable();
             $table->string('item_type')->nullable();

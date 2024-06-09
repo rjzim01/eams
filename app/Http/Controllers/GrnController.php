@@ -49,7 +49,7 @@ class GrnController extends Controller
 
         $data = [];
         $data['assetitem_po_mst_id'] = $request->assetitem_po_id;
-        $data['assetitem_po_dtls_id'] = $request->assetitem_po_dtls_id;
+        //$data['assetitem_po_dtls_id'] = $request->assetitem_po_dtls_id;
         $data['spareparts_po_mst_id'] = $request->spareparts_po_id;
         $data['categorymodel_id'] = $request->category_model_id;
         $data['spartpart_id'] = $request->spare_parts_id;

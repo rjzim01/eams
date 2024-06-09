@@ -74,6 +74,7 @@
 
                                     </div>
 
+                                    {{--                                     
                                     <div class="col-4"></div>
 
                                     <div class="col-3 text-end">
@@ -90,7 +91,8 @@
                                             @endforeach
                                         </select>
 
-                                    </div>
+                                    </div> 
+                                    --}}
 
                                     <div class="col-4"></div>
 

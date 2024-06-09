@@ -21,6 +21,7 @@ use App\Http\Controllers\MeterReadingController;
 use App\Http\Controllers\ObjectaccessController;
 use App\Http\Controllers\ObjecttoroleController;
 use App\Http\Controllers\CategorymodelController;
+use App\Http\Controllers\AssetitemPoMstController;
 use App\Http\Controllers\ManagincommitteeController;
 use App\Http\Controllers\MaintenanceschduleController;
 
@@ -213,6 +214,15 @@ Route::middleware('auth')->group(function () {
     Route::get('/grn-edit/{id}', [GrnController::class, 'grnEdit'])->name('grn-edit');
     Route::post('/grn-update', [GrnController::class, 'grnUpate'])->name('grn-update');
     Route::get('/grn-delete/{id}', [GrnController::class, 'grnDelete']);
+
+    //Asset Purchase Order
+
+    Route::get("/asset_purchase_order_view", [AssetitemPoMstController::class, 'assetPurchaseOrderView'])->name('assetPurchaseOrder-view');
+    Route::post('/asset-purchase-order-store', [AssetitemPoMstController::class, 'assetPurchaseOrderStore'])->name('assetPurchaseOrdermst-store');
+    Route::get("/asset_purchase_order_list", [AssetitemPoMstController::class, 'assetPurchaseOrderList'])->name('assetPurchaseOrder-list');
+    Route::get('/assetPurchaseOrder_{id}_edit', [AssetitemPoMstController::class, 'assetPurchaseOrderEdit'])->name('assetPurchaseOrder-edit');
+    Route::post('/asset_purchase_order_update/{id}', [AssetitemPoMstController::class, 'assetPurchaseOrderUpdate'])->name('assetPurchaseOrder-update');
+    Route::delete('/assetPurchaseOrder_{id}_destroy', [AssetitemPoMstController::class, 'assetPurchaseOrderDestroy'])->name('assetPurchaseOrder-destroy');
 
 });
 
