@@ -9,6 +9,14 @@ class Grn extends Model
 {
     use HasFactory;
 
+    // Allow mass assignment on these fields
+    protected $fillable = [
+        'assetitem_po_mst_id',
+        // Add other fields that you want to allow mass assignment on
+    ];
+
+    // Define relationships, casts, and other model configurations
+
     public function assetitem_po_mst()
     {
         return $this->belongsTo(Assetitem_po_mst::class);

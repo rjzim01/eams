@@ -20,6 +20,7 @@ class GrnController extends Controller
 {
     public function grnView()
     {
+        $pendingAssetItemPoMsts = Assetitem_po_mst::where('status', 'pending')->get();
         $grn = Grn::with('categorymodel', 'assetitem_po_mst', 'spareparts_po_mst', 'spartpart', 'brand', 'user')->orderBy('id', 'desc')->get();
         //$grn = Grn::orderBy('id', 'desc')->get();
         $asset_item_po_mst = Assetitem_po_mst::get();
@@ -38,42 +39,122 @@ class GrnController extends Controller
         $company = Company::where('name', '=', Auth::user()->company_name)->get();
         //$comid = $company[0]->id;
 
-        //return view("pages.meterPages.meter-create", compact('roleaccess', 'meters', 'assets'));
-        return view("pages.grn.grn-create", compact('roleaccess', 'grn', 'asset_item_po_mst', 'asset_item_po_dtls', 'spareparts_po_mst', 'category_model', 'spartpart', 'brand', 'umos', 'company'));
+        return view("pages.grn.grn-create", compact('roleaccess', 'grn', 'asset_item_po_mst', 'asset_item_po_dtls', 'spareparts_po_mst', 'category_model', 'spartpart', 'brand', 'umos', 'company', 'pendingAssetItemPoMsts'));
+        //return $pendingAssetItemPoMsts;
     }
+    // public function grnStore(Request $request)
+    // {
+    //     // $request->validate([
+
+    //     // ]);
+
+    //     // $data = [];
+    //     // $data['assetitem_po_mst_id'] = $request->assetitem_po_id;
+    //     // //$data['assetitem_po_dtls_id'] = $request->assetitem_po_dtls_id;
+    //     // $data['spareparts_po_mst_id'] = $request->spareparts_po_id;
+    //     // $data['categorymodel_id'] = $request->category_model_id;
+    //     // $data['spartpart_id'] = $request->spare_parts_id;
+    //     // $data['brand_id'] = $request->brand_id;
+    //     // $data['unit_price'] = $request->unit_price;
+    //     // $data['quantity'] = $request->quantity;
+    //     // $data['totla_amount'] = $request->total_amount;
+    //     // $data['uom_id'] = $request->uom_id;
+    //     // //$data['stock_status'] = $request->stock_status;
+    //     // //$data['item_type'] = $request->item_type;
+
+    //     // $data['user_id'] = Auth::user()->id;
+    //     // $data['company_id'] = $request->company_id;
+    //     // //$data['updated_by'] = Auth::user()->id;
+
+    //     // $grns = Grn::insert($data);
+    //     ///////////////////////////////////////////////////////////////////////
+
+    //     dd($request->all());
+    //     $validatedData = $request->validate([
+    //         'assetitem_po_mst_id' => 'required',
+    //     ]);
+
+    //     // Create a new Grn
+    //     $assetItem = Grn::create($validatedData);
+
+    //     if ($assetItem) {
+    //         // Extract detail data from request
+    //         $detailData = [];
+    //         foreach ($request->input('categorymodel_id') as $key => $value) {
+    //             $detailData[] = [
+    //                 'assetitem_po_mst_id' => $assetPurchaseOrder_mst->id,
+    //                 'categorymodel_id' => $request->input('categorymodel_id')[$key],
+    //                 'brand_id' => $request->input('brand_id')[$key],
+    //                 'unit_price' => $request->input('unit_price')[$key],
+    //                 'quantity' => $request->input('quantity')[$key],
+    //                 'total_amount' => $request->input('total_amount')[$key],
+    //                 'uom_id' => $request->input('uom_id')[$key],
+    //                 'user_id' => Auth::id(),
+    //                 'updated_by' => Auth::user()->name,
+    //             ];
+    //         }
+
+    //         // Create detail records
+    //         Assetitem::insert($detailData);
+
+    //         //return redirect()->route('assetPurchaseOrder-view')->with('message', 'Asset Purchase Order added Successfully');
+    //         return redirect()->route('grn-list')->with('message', 'GRN added Successfully');
+    //     }
+    //     // if ($assetItem) {
+    //     //     return redirect()->route('grn-list')->with('message', 'GRN added Successfully');
+
+    //     // } 
+    //     else {
+    //         return redirect()->back();
+    //     }
+    // }
     public function grnStore(Request $request)
     {
-        // $request->validate([
+        // Validate the request data
+        $validatedData = $request->validate([
+            'assetitem_po_mst_id' => 'required',
+            'asset_item_po_dtls_id.*' => 'required',
+            'categorymodel_id.*' => 'required',
+            'brand_id.*' => 'required',
+            'unit_price.*' => 'required|numeric',
+            'quantity.*' => 'required|integer',
+            'total_amount.*' => 'required|numeric',
+        ]);
 
-        // ]);
+        // Create a new Grn
+        $grn = Grn::create([
+            'assetitem_po_mst_id' => $validatedData['assetitem_po_mst_id'],
+        ]);
 
-        $data = [];
-        $data['assetitem_po_mst_id'] = $request->assetitem_po_id;
-        //$data['assetitem_po_dtls_id'] = $request->assetitem_po_dtls_id;
-        $data['spareparts_po_mst_id'] = $request->spareparts_po_id;
-        $data['categorymodel_id'] = $request->category_model_id;
-        $data['spartpart_id'] = $request->spare_parts_id;
-        $data['brand_id'] = $request->brand_id;
-        $data['unit_price'] = $request->unit_price;
-        $data['quantity'] = $request->quantity;
-        $data['totla_amount'] = $request->total_amount;
-        $data['uom_id'] = $request->uom_id;
-        //$data['stock_status'] = $request->stock_status;
-        //$data['item_type'] = $request->item_type;
+        // Check if GRN was created successfully
+        if ($grn) {
+            // Prepare detail data for insertion
+            $detailData = [];
+            foreach ($request->input('categorymodel_id') as $key => $value) {
+                $detailData[] = [
+                    'assetitem_po_mst_id' => $request->input('assetitem_po_mst_id'),
+                    'categorymodel_id' => $request->input('categorymodel_id')[$key],
+                    'brand_id' => $request->input('brand_id')[$key],
+                    'unit_price' => $request->input('unit_price')[$key],
+                    //'quantity' => $request->input('quantity')[$key],
+                    //'total_amount' => $request->input('total_amount')[$key],
+                    //'uom_id' => $request->input('uom_id')[$key] ?? null, // Check if uom_id exists
+                    'user_id' => Auth::id(),
+                    'updated_by' => Auth::user()->name,
+                ];
+            }
 
-        $data['user_id'] = Auth::user()->id;
-        $data['company_id'] = $request->company_id;
-        //$data['updated_by'] = Auth::user()->id;
+            // Insert detail data
+            Assetitem::insert($detailData);
 
-        $grns = Grn::insert($data);
-
-        if ($grns) {
+            // Redirect with success message
             return redirect()->route('grn-list')->with('message', 'GRN added Successfully');
-
         } else {
-            return redirect()->back();
+            // Redirect back if GRN creation failed
+            return redirect()->back()->with('error', 'Failed to create GRN');
         }
     }
+
     function grnList(Request $request)
     {
         $grn = Grn::with('categorymodel', 'assetitem_po_mst', 'spareparts_po_mst', 'spartpart', 'brand', 'user')->orderBy('id', 'desc')->get();
@@ -87,13 +168,16 @@ class GrnController extends Controller
     }
     public function grnEdit($id)
     {
+        $asset_item_po = Assetitem_po_mst::where('id', $id)->first();
+        $asset_item_po_dtls = Assetitem_po_dtl::where('assetitem_po_mst_id', $id)->get();
         $grn = Grn::where('id', $id)->first();
 
         $userrole = Auth::user()->rollmanage_id;
         $roleaccess = Objecttorole::with('user', 'manageobject')
             ->where('rollmanage_id', '=', $userrole)->get();
 
-        return view("pages.grn.grn-edit", compact('roleaccess', 'grn'));
+        return view("pages.grn.grn-edit-2", compact('roleaccess', 'grn', 'asset_item_po', 'asset_item_po_dtls'));
+        //return $asset_item_po_dtls;
     }
 
     public function grnUpate(Request $request)

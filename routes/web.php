@@ -211,7 +211,7 @@ Route::middleware('auth')->group(function () {
     Route::get("/grn-view", [GrnController::class, 'grnView'])->name('grn-view');
     Route::post('/grn-store', [GrnController::class, 'grnStore'])->name('grn-store');
     Route::get("/grn-list", [GrnController::class, 'grnList'])->name('grn-list');
-    Route::get('/grn-edit/{id}', [GrnController::class, 'grnEdit'])->name('grn-edit');
+    Route::get('/grn-create/{id}', [GrnController::class, 'grnEdit'])->name('grn-edit');
     Route::post('/grn-update', [GrnController::class, 'grnUpate'])->name('grn-update');
     Route::get('/grn-delete/{id}', [GrnController::class, 'grnDelete']);
 

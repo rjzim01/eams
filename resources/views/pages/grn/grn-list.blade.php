@@ -40,19 +40,19 @@
                                         <th scope="col">Sl#</th>
                                         <th scope="col">id</th> 
                                         --}}
-                                        <th scope="col">Assetitem Po</th>
-                                        <th scope="col">Spareparts Po</th>
-                                        <th scope="col">Category Model</th>
-                                        <th scope="col">Spart Parts</th>
-                                        <th scope="col">Brand</th>
-                                        <th scope="col">Unit Price</th>
-                                        <th scope="col">Quantity</th>
-                                        <th scope="col">Total Amount</th>
+                                        <th scope="col">Assetitem Po Mst Id</th>
+                                        {{-- <th scope="col">Spareparts Po</th> --}}
+                                        {{-- <th scope="col">Category Model</th> --}}
+                                        {{-- <th scope="col">Spart Parts</th> --}}
+                                        {{-- <th scope="col">Brand</th> --}}
+                                        {{-- <th scope="col">Unit Price</th> --}}
+                                        {{-- <th scope="col">Quantity</th> --}}
+                                        {{-- <th scope="col">Total Amount</th> --}}
                                         {{-- <th scope="col">Uom Id</th> --}}
                                         <th scope="col">Stock Status</th>
                                         {{-- <th scope="col">Item Type</th> --}}
 
-                                        <th scope="col">Actions</th>
+                                        {{-- <th scope="col">Actions</th> --}}
 
                                     </tr>
                                 </thead>
@@ -63,24 +63,25 @@
                                             <th class="text-center" scope="row">{{  $loop->iteration }}</th>
                                             <td>{{  $result->id }}</td>  
                                             --}}
-                                            <td>{{ $result->assetitem_po_mst->po_gen_id }}</td>
-                                            <td>{{ $result->spareparts_po_mst->po_gen_id }}</td>
-                                            <td>{{ $result->categorymodel->name }}</td>
-                                            <td>{{ $result->spartpart->name }}</td>
-                                            <td>{{ $result->brand->name }}</td>
-                                            <td>{{ $result->unit_price }}</td>
-                                            <td>{{ $result->quantity }}</td>
-                                            <td>{{ $result->totla_amount }}</td>
+                                            <td>{{ $result->assetitem_po_mst_id }}</td>
+                                            {{-- <td>{{ $result->assetitem_po_mst->po_gen_id }}</td> --}}
+                                            {{-- <td>{{ $result->spareparts_po_mst->po_gen_id }}</td> --}}
+                                            {{-- <td>{{ $result->categorymodel->name }}</td> --}}
+                                            {{-- <td>{{ $result->spartpart->name }}</td> --}}
+                                            {{-- <td>{{ $result->brand->name }}</td> --}}
+                                            {{-- <td>{{ $result->unit_price }}</td> --}}
+                                            {{-- <td>{{ $result->quantity }}</td> --}}
+                                            {{-- <td>{{ $result->totla_amount }}</td> --}}
                                             {{-- <td>{{ $result->uom_id }}</td> --}}
                                             <td>{{ $result->stock_status }}</td>
                                             {{-- <td>{{ $result->item_type }}</td> --}}
-                                            <td class="text-center">
+                                            {{-- <td class="text-center">
                                                 <a href="{{ route('grn-edit', $result->id) }}"><span
-                                                        class="badge rounded-pill text-bg-warning">Edit</span></a>
+                                                        class="badge rounded-pill text-bg-warning">Edit</span></a> --}}
 
-                                                <a onclick="return confirm('Are you sure to delete ?')"
+                                            {{-- <a onclick="return confirm('Are you sure to delete ?')"
                                                     href="{{ url('grn-delete/' . $result->id) }}"
-                                                    class="badge rounded-pill text-bg-danger">Delete</a>
+                                                    class="badge rounded-pill text-bg-danger">Delete</a> --}}
 
                                             </td>
                                         </tr>
