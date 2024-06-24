@@ -4,8 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration
-{
+return new class extends Migration {
     /**
      * Run the migrations.
      */
@@ -19,38 +18,47 @@ return new class extends Migration
             $table->string('chassis_no')->nullable()->unique();
             $table->string('enginee_no')->nullable()->unique();
             $table->string('stock_sts')->nullable();
-           
+            $table->string('asset_status')->nullable();
+
             $table->string('pruchase_date')->nullable();
             $table->string('unit_price')->nullable();
             $table->string('WarrantyEndDate')->nullable();
             $table->string('DepreciationRate')->nullable();
-            
+
+            $table->unsignedBigInteger('assetitem_po_mst_id');
+            $table->foreign('assetitem_po_mst_id')->references('id')->on('assetitem_po_msts')
+                ->cascadeOnUpdate()->restrictOnDelete();
+
+            $table->unsignedBigInteger('currency_id');
+            $table->foreign('currency_id')->references('id')->on('currencies')
+                ->cascadeOnUpdate()->restrictOnDelete();
+
             $table->unsignedBigInteger('supplier_id');
             $table->foreign('supplier_id')->references('id')->on('suppliers')
-            ->cascadeOnUpdate()->restrictOnDelete();
+                ->cascadeOnUpdate()->restrictOnDelete();
 
             $table->unsignedBigInteger('brand_id');
             $table->foreign('brand_id')->references('id')->on('brands')
-            ->cascadeOnUpdate()->restrictOnDelete();
+                ->cascadeOnUpdate()->restrictOnDelete();
 
             $table->unsignedBigInteger('categorymodel_id');
             $table->foreign('categorymodel_id')->references('id')->on('categorymodels')
-            ->cascadeOnUpdate()->restrictOnDelete();
+                ->cascadeOnUpdate()->restrictOnDelete();
 
             $table->unsignedBigInteger('user_id');
             $table->foreign('user_id')->references('id')->on('users')
-            ->cascadeOnUpdate()->restrictOnDelete();
+                ->cascadeOnUpdate()->restrictOnDelete();
 
             $table->unsignedBigInteger('company_id');
             $table->foreign('company_id')->references('id')->on('companies')
-            ->cascadeOnUpdate()->restrictOnDelete();
+                ->cascadeOnUpdate()->restrictOnDelete();
 
 
             $table->string('updated_by')->nullable();
 
             $table->timestamp('created_at')->useCurrent();
             $table->timestamp('updated_at')->useCurrent()->useCurrentOnUpdate();
-           
+
             $table->index('asset_no');
             $table->index('manufacture_no');
             $table->index('gov_registration_no');

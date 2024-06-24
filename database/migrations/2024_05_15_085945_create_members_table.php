@@ -4,8 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration
-{
+return new class extends Migration {
     /**
      * Run the migrations.
      */
@@ -46,19 +45,20 @@ return new class extends Migration
             $table->string('reference')->nullable();
 
 
-            
+
             $table->unsignedBigInteger('user_id');
             $table->foreign('user_id')->references('id')->on('users')
-            ->cascadeOnUpdate()->restrictOnDelete();
-
+                ->cascadeOnUpdate()->restrictOnDelete();
 
             $table->unsignedBigInteger('company_id');
             $table->foreign('company_id')->references('id')->on('companies')
-            ->cascadeOnUpdate()->restrictOnDelete();
+                ->cascadeOnUpdate()->restrictOnDelete();
+
+            $table->string('company_name')->nullable();
 
             $table->timestamp('created_at')->useCurrent();
             $table->timestamp('updated_at')->useCurrent()->useCurrentOnUpdate();
-           
+
             $table->index('name');
             $table->index('houseNO');
             $table->index('contctNo');

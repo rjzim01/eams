@@ -10,19 +10,25 @@ return new class extends Migration {
      */
     public function up(): void
     {
-        Schema::create('grns', function (Blueprint $table) {
+        Schema::create('assetitem_po_dtls', function (Blueprint $table) {
             $table->id();
-            $table->string('assetitem_po_mst_id')->nullable()->unique();
-            $table->string('spareparts_po_mst_id')->nullable()->unique();
-            $table->string('categorymodel_id')->nullable()->unique();
-            $table->string('spartpart_id')->nullable()->unique();
-            $table->string('brand_id')->nullable()->unique();
-            $table->string('unit_price')->nullable()->unique();
+
+            $table->unsignedBigInteger('assetitem_po_mst_id');
+            $table->foreign('assetitem_po_mst_id')->references('id')->on('assetitem_po_msts')
+                ->cascadeOnUpdate()->restrictOnDelete();
+
+            $table->unsignedBigInteger('categorymodel_id');
+            $table->foreign('categorymodel_id')->references('id')->on('categorymodels')
+                ->cascadeOnUpdate()->restrictOnDelete();
+
+            $table->unsignedBigInteger('brand_id');
+            $table->foreign('brand_id')->references('id')->on('brands')
+                ->cascadeOnUpdate()->restrictOnDelete();
+
+            $table->string('unit_price')->nullable();
             $table->string('quantity')->nullable();
             $table->string('total_amount')->nullable();
             $table->string('uom_id')->nullable();
-            $table->string('stock_status')->nullable();
-            $table->string('item_type')->nullable();
 
             $table->unsignedBigInteger('user_id');
             $table->foreign('user_id')->references('id')->on('users')
@@ -32,8 +38,6 @@ return new class extends Migration {
 
             $table->timestamp('created_at')->useCurrent();
             $table->timestamp('updated_at')->useCurrent()->useCurrentOnUpdate();
-
-
         });
     }
 
@@ -42,6 +46,6 @@ return new class extends Migration {
      */
     public function down(): void
     {
-        Schema::dropIfExists('grns');
+        Schema::dropIfExists('assetitem_po_dtls');
     }
 };

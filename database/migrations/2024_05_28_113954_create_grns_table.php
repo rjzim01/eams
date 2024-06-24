@@ -20,8 +20,8 @@ return new class extends Migration {
             $table->string('unit_price')->nullable();
             $table->string('quantity')->nullable();
             $table->string('total_amount')->nullable();
-
             $table->string('stock_status')->nullable();
+            $table->string('item_type')->nullable();
 
             $table->unsignedBigInteger('uom_id');
             $table->foreign('uom_id')->references('id')->on('uoms')
@@ -29,6 +29,10 @@ return new class extends Migration {
 
             $table->unsignedBigInteger('user_id');
             $table->foreign('user_id')->references('id')->on('users')
+                ->cascadeOnUpdate()->restrictOnDelete();
+
+            $table->unsignedBigInteger('company_id');
+            $table->foreign('company_id')->references('id')->on('companies')
                 ->cascadeOnUpdate()->restrictOnDelete();
 
             $table->string('updated_by')->nullable();

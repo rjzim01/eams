@@ -56,54 +56,35 @@
                                     <h4>Purchase Order Master</h4>
                                     <div class="row">
                                         <div class="col-md-6">
+
                                             <div class="form-group row mt-3">
                                                 <label class="col-sm-5 col-form-label text-start">Asset
                                                     Item Po Msts
                                                     ID</label>
                                                 <div class="col-sm-7">
 
-                                                    <input type="text" class="form-control"
+                                                    <input type="number" class="form-control"
                                                         value="{{ $asset_item_po->id }}" name="assetitem_po_mst_id"
                                                         readonly>
                                                 </div>
                                             </div>
-                                            <div class="form-group row mt-3">
+
+                                            {{-- <div class="form-group row mt-3">
                                                 <label class="col-sm-5 col-form-label text-start">Spareparts
                                                     ID</label>
                                                 <div class="col-sm-7">
-                                                    <input type="text" class="form-control"
+                                                    <input type="number" class="form-control"
                                                         name="spareparts_po_mst_id"
                                                         value="{{ $asset_item_po->spareParts->id }}" readonly>
-                                                </div>
-                                            </div>
-                                            {{-- <div class="form-group row mt-3">
-                                                <label for="currency" class="col-sm-3 col-form-label text-end">Currency
-                                                    <span class="text-danger">*</span></label>
-                                                <div class="col-sm-9">
-                                                    <select class="form-select" name="currency" id="currency" required>
-                                                        <option selected disabled value="">Currency</option>
-                                                        @foreach ($currencies as $item)
-                                                            <option value="{{ $item->id }}">{{ $item->shortname }}
-                                                            </option>
-                                                        @endforeach
-                                                    </select>
                                                 </div>
                                             </div> --}}
 
                                             {{-- <div class="form-group row mt-3">
-                                                <label for="LC_no" class="col-sm-3 col-form-label text-end">LC
-                                                    No</label>
-                                                <div class="col-sm-9">
-                                                    <input type="text" class="form-control" name="LC_no"
-                                                        id="LC_no" placeholder="LC No">
-                                                </div>
-                                            </div> --}}
-                                            {{-- <div class="form-group row mt-3">
-                                                <label for="LC_date" class="col-sm-3 col-form-label text-end">LC
-                                                    Date</label>
-                                                <div class="col-sm-9">
-                                                    <input type="date" class="form-control" name="LC_date"
-                                                        id="LC_date">
+                                                <label class="col-sm-5 col-form-label text-start">Company
+                                                    ID</label>
+                                                <div class="col-sm-7">
+                                                    <input type="number" class="form-control" name="company_id"
+                                                        value="{{ $asset_item_po->company_id }}" readonly>
                                                 </div>
                                             </div> --}}
 

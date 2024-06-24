@@ -110,13 +110,29 @@ class GrnController extends Controller
     //     }
     // }
 
+
+    public function grnEdit($id)
+    {
+        $asset_item_po = Assetitem_po_mst::where('id', $id)->with('spareParts')->first();
+        $asset_item_po_dtls = Assetitem_po_dtl::where('assetitem_po_mst_id', $id)->with('assetItemPo', 'categoryModel', 'brand')->get();
+        //$purchaseOrder = Assetitem_po_mst::with('details', 'workshop', 'supplier', 'company', 'user')->findOrFail($id);
+        $grn = Grn::where('id', $id)->first();
+
+        $userrole = Auth::user()->rollmanage_id;
+        $roleaccess = Objecttorole::with('user', 'manageobject')
+            ->where('rollmanage_id', '=', $userrole)->get();
+
+        return view("pages.grn.grn-edit-2", compact('roleaccess', 'grn', 'asset_item_po', 'asset_item_po_dtls'));
+        //return $asset_item_po;
+    }
     public function grnStore(Request $request)
     {
         //dd($request->all());
         // Validate the request data
         $validatedData = $request->validate([
             'assetitem_po_mst_id' => 'required',
-            'spareparts_po_mst_id' => 'required',
+            //'spareparts_po_mst_id' => 'required',
+            //'company_id' => 'required',
             'asset_item_po_dtls_id.*' => 'required',
             'categorymodel_id.*' => 'required',
             'brand_id.*' => 'required',
@@ -128,7 +144,11 @@ class GrnController extends Controller
         // Create a new Grn
         $grn = Grn::create([
             'assetitem_po_mst_id' => $validatedData['assetitem_po_mst_id'],
-            'spareparts_po_mst_id' => $validatedData['spareparts_po_mst_id'],
+            //'spareparts_po_mst_id' => $validatedData['spareparts_po_mst_id'],
+            //'company_id' => $request->company_id,
+            'uom_id' => 1,
+            'stock_status' => 'Pending',
+            'user_id' => Auth::id(),
         ]);
 
         // Check if GRN was created successfully
@@ -173,20 +193,7 @@ class GrnController extends Controller
         return view("pages.grn.grn-list", compact('roleaccess', 'grn'));
 
     }
-    public function grnEdit($id)
-    {
-        $asset_item_po = Assetitem_po_mst::where('id', $id)->with('spareParts')->first();
-        $asset_item_po_dtls = Assetitem_po_dtl::where('assetitem_po_mst_id', $id)->with('assetItemPo', 'categoryModel', 'brand')->get();
-        //$purchaseOrder = Assetitem_po_mst::with('details', 'workshop', 'supplier', 'company', 'user')->findOrFail($id);
-        $grn = Grn::where('id', $id)->first();
 
-        $userrole = Auth::user()->rollmanage_id;
-        $roleaccess = Objecttorole::with('user', 'manageobject')
-            ->where('rollmanage_id', '=', $userrole)->get();
-
-        return view("pages.grn.grn-edit-2", compact('roleaccess', 'grn', 'asset_item_po', 'asset_item_po_dtls'));
-        //return $asset_item_po;
-    }
     public function grnUpate(Request $request)
     {
         // $request->validate([
@@ -227,7 +234,14 @@ class GrnController extends Controller
             'purchaseOrder' => $purchaseOrder,
         ];
 
+        // $pdf = PDF::loadView('pages.grn.grn_report', $data);
+        // return $pdf->download('grn_report.pdf');
+
+        // Generate a unique name using a timestamp
+        $timestamp = now()->format('Ymd_His');
+        $fileName = 'grn_report_' . $timestamp . '.pdf';
+
         $pdf = PDF::loadView('pages.grn.grn_report', $data);
-        return $pdf->download('grn_report.pdf');
+        return $pdf->download($fileName);
     }
 }

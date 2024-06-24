@@ -12,6 +12,9 @@ class Grn extends Model
     // Allow mass assignment on these fields
     protected $fillable = [
         'assetitem_po_mst_id',
+        'uom_id',
+        'user_id',
+        'stock_status',
         // Add other fields that you want to allow mass assignment on
     ];
 

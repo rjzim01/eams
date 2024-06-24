@@ -4,8 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration
-{
+return new class extends Migration {
     /**
      * Run the migrations.
      */
@@ -14,7 +13,7 @@ return new class extends Migration
         Schema::create('workorders', function (Blueprint $table) {
             $table->id();
             $table->string('workorder_no')->nullable();
-            $table->string('failure_cause',300)->nullable();
+            $table->string('failure_cause', 300)->nullable();
             $table->string('workorder_type')->nullable();
             $table->string('priority')->nullable();
             $table->string('before_efficiency')->nullable();
@@ -22,25 +21,28 @@ return new class extends Migration
             $table->string('status')->nullable();//draft/released/complete
             $table->string('approval_stas')->nullable();
             $table->string('approve_stats_by')->nullable();
-           
+
+            $table->unsignedBigInteger('assetitem_id');
+            $table->foreign('assetitem_id')->references('id')->on('assetitems')
+                ->cascadeOnUpdate()->restrictOnDelete();
 
             $table->unsignedBigInteger('workshop_id');
             $table->foreign('workshop_id')->references('id')->on('workshops')
-            ->cascadeOnUpdate()->restrictOnDelete();
+                ->cascadeOnUpdate()->restrictOnDelete();
 
             $table->unsignedBigInteger('maintenance_asset_id');
             $table->foreign('maintenance_asset_id')->references('id')->on('maintenance_assets')
-            ->cascadeOnUpdate()->restrictOnDelete();
+                ->cascadeOnUpdate()->restrictOnDelete();
 
             $table->unsignedBigInteger('user_id');
             $table->foreign('user_id')->references('id')->on('users')
-            ->cascadeOnUpdate()->restrictOnDelete();
+                ->cascadeOnUpdate()->restrictOnDelete();
 
             $table->string('updated_by')->nullable();
 
             $table->timestamp('created_at')->useCurrent();
             $table->timestamp('updated_at')->useCurrent()->useCurrentOnUpdate();
-           
+
             $table->index('workorder_no');
         });
     }
