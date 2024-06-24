@@ -57,13 +57,23 @@
                                     <div class="row">
                                         <div class="col-md-6">
                                             <div class="form-group row mt-3">
-                                                <label for="po_gen_id_1" class="col-sm-3 col-form-label text-end">Asset
+                                                <label class="col-sm-5 col-form-label text-start">Asset
                                                     Item Po Msts
                                                     ID</label>
-                                                <div class="col-sm-9">
+                                                <div class="col-sm-7">
+
                                                     <input type="text" class="form-control"
-                                                        name="assetitem_po_mst_id" id="po_gen_id_1"
-                                                        value="{{ $asset_item_po->id }}" readonly>
+                                                        value="{{ $asset_item_po->id }}" name="assetitem_po_mst_id"
+                                                        readonly>
+                                                </div>
+                                            </div>
+                                            <div class="form-group row mt-3">
+                                                <label class="col-sm-5 col-form-label text-start">Spareparts
+                                                    ID</label>
+                                                <div class="col-sm-7">
+                                                    <input type="text" class="form-control"
+                                                        name="spareparts_po_mst_id"
+                                                        value="{{ $asset_item_po->spareParts->id }}" readonly>
                                                 </div>
                                             </div>
                                             {{-- <div class="form-group row mt-3">
@@ -147,113 +157,140 @@
                                 <div class="card p-1 mt-2"
                                     style="border: 1px solid black; box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);">
                                     <h4>Asset Item PO Details</h4>
-                                    <div class="table-responsive">
+                                    <div class="table-responsive1">
+                                        {{-- 
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <div class="form-group row mt-3">
+
+                                                    @foreach ($asset_item_po_dtls as $details)
+                                                        <label for="po_gen_id_1"
+                                                            class="col-sm-5 col-form-label text-start">Category Model
+                                                            Name
+                                                        </label>
+
+                                                        <div class="col-sm-7">
+
+                                                            <input value="{{ $details->categorymodel_id }}"
+                                                                type="hidden" name="categorymodel_id[]">
+
+                                                            <input type="text" class="form-control"
+                                                                value="{{ $details->categoryModel->name }}" readonly>
+
+                                                        </div>
+                                                    @endforeach
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="form-group row mt-3">
+                                                </div>
+                                            </div>
+                                        </div> 
+                                        --}}
+
+
                                         <table class="table table-bordered">
                                             <thead>
                                                 <tr>
-                                                    <th>Asset Item PO Details Id</th>
+
                                                     <th>Category Model Name</th>
                                                     <th>Brand Name</th>
 
                                                     <th>Unit Price</th>
                                                     <th>Quantity</th>
                                                     <th>Total Amount</th>
-                                                    {{-- 
-                                                    <th>Unit Name</th>
-                                                    <th>Action</th> 
-                                                    --}}
+                                                    <th>Currency</th>
+                                                    <th>Company Id</th>
+                                                    <th>Supplier Id</th>
+                                                    <th>Asset Status</th>
+
+
+
                                                 </tr>
                                             </thead>
                                             <tbody id="detailRows">
                                                 @foreach ($asset_item_po_dtls as $details)
                                                     <tr>
-                                                        <td>
-                                                            {{-- <select class="form-select" name="categorymodel_id[]"
-                                                                id="categorymodel_id" required>
-                                                                <option selected disabled value="">Category Model
-                                                                    Name
-                                                                </option>
-                                                                @foreach ($categoryName as $model)
-                                                                    <option value="{{ $model->id }}">
-                                                                        {{ $model->name }}
-                                                                    </option>
-                                                                @endforeach
-                                                            </select> --}}
-                                                            <input value="{{ $details->id }}" type="number"
-                                                                class="form-control" name="asset_item_po_dtls_id[]"
-                                                                id="quantity_1" required>
-                                                        </td>
+
+                                                        <input type="hidden" value="{{ $details->id }}"
+                                                            class="form-control1" name="asset_item_po_dtls_id[]"
+                                                            id="quantity_1" readonly>
 
                                                         <td>
-                                                            {{-- <select class="form-select" name="brand_id[]" id="brand_id"
-                                                                required>
-                                                                <option selected disabled value="">Choose Brand
-                                                                    Name
-                                                                </option>
-                                                                @foreach ($brandName as $brand)
-                                                                    <option value="{{ $brand->id }}">
-                                                                        {{ $brand->name }}</option>
-                                                                @endforeach
-                                                            </select> --}}
-                                                            <input value="{{ $details->categorymodel_id }}"
-                                                                type="number" class="form-control"
-                                                                name="categorymodel_id[]" id="quantity_1" required>
+
+                                                            <input type="hidden" name="categorymodel_id[]"
+                                                                value="{{ $details->categorymodel_id }}">
+
+                                                            <input type="text"
+                                                                value="{{ $details->categoryModel->name }}"
+                                                                class="form-control" readonly>
+
                                                         </td>
 
-                                                        <td><input value="{{ $details->brand_id }}" type="number"
-                                                                class="form-control" name="brand_id[]" id="unit_price_1"
-                                                                required>
+                                                        <td>
+                                                            <input type="hidden" name="brand_id[]"
+                                                                value="{{ $details->brand_id }}">
+
+                                                            <input type="text" value="{{ $details->brand->name }}"
+                                                                class="form-control" readonly>
                                                         </td>
 
-                                                        <td><input value="{{ $details->unit_price }}" type="number"
-                                                                class="form-control" name="unit_price[]"
-                                                                id="unit_price_1" required>
+                                                        <td>
+
+                                                            <input type="number" value="{{ $details->unit_price }}"
+                                                                class="form-control" name="unit_price[]" readonly>
                                                         </td>
 
                                                         <td><input value="{{ $details->quantity }}" type="number"
                                                                 class="form-control" name="quantity[]" id="quantity_1"
-                                                                required></td>
+                                                                readonly></td>
 
                                                         <td><input value="{{ $details->total_amount }}" type="number"
                                                                 class="form-control" name="total_amount[]"
                                                                 id="total_amount_1" readonly>
                                                         </td>
-                                                        {{--
+
                                                         <td>
-                                                            <select class="form-select" name="uom_id[]" id="uom_id"
-                                                                required>
-                                                                <option selected disabled value="">Choose UOM
-                                                                </option>
-                                                                @foreach ($uoms as $uom)
-                                                                    <option value="{{ $uom->id }}">
-                                                                        {{ $uom->name }}</option>
-                                                                @endforeach
-                                                            </select>
+                                                            <input type="hidden"
+                                                                value="{{ $details->assetItemPo->currency }}"
+                                                                name="currency[]">
+                                                            <input
+                                                                value="{{ $details->assetItemPo->currency == 1 ? 'BDT' : 'Rs' }}"
+                                                                type="text" class="form-control" readonly>
                                                         </td>
-                                                         --}}
-                                                        {{-- <td><button type="button"
-                                                                class="btn btn-danger removeRow">Remove</button></td> --}}
+
+                                                        <td>
+                                                            <input value="{{ $details->assetItemPo->company_id }}"
+                                                                type="hidden" name="company_id[]">
+                                                            <input value="{{ $details->assetItemPo->company->name }}"
+                                                                type="text" class="form-control" readonly>
+                                                        </td>
+
+                                                        <td>
+                                                            <input value="{{ $details->assetItemPo->supplier_id }}"
+                                                                type="hidden" name="supplier_id[]">
+                                                            <input value="{{ $details->assetItemPo->supplier->name }}"
+                                                                type="text" class="form-control" readonly>
+                                                        </td>
+
+                                                        <td>
+
+                                                            <input value="{{ $details->assetItemPo->status }}"
+                                                                type="text" class="form-control"
+                                                                name="asset_status[]" readonly>
+                                                        </td>
+
                                                     </tr>
                                                 @endforeach
                                             </tbody>
-                                            {{-- <tfoot>
-                                                <tr>
-                                                    <td colspan="4" class="text-end"><strong>Grand Total:</strong>
-                                                    </td>
-                                                    <td><input type="text" class="form-control" id="grandTotal"
-                                                            readonly></td>
-                                                    <td colspan="2"></td>
-                                                </tr>
-                                            </tfoot> --}}
+
                                         </table>
+
+
                                     </div>
-                                    {{-- <div class="text-center mt-3">
-                                        <button type="button" class="btn btn-success" id="addRow">Add
-                                            Row</button>
-                                    </div> --}}
+
                                 </div>
 
-                                <!-- Save Button -->
                                 <div class="col-12 mt-4">
                                     <div class="row">
                                         <div class="col-3"></div>

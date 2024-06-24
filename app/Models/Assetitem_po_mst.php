@@ -52,6 +52,10 @@ class Assetitem_po_mst extends Model
     {
         return $this->belongsTo(User::class);
     }
+    public function spareParts()
+    {
+        return $this->belongsTo(Spareparts_po_mst::class, 'po_gen_id', 'po_gen_id');
+    }
 
     public function details()
     {

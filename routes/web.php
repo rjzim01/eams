@@ -214,6 +214,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/grn-create/{id}', [GrnController::class, 'grnEdit'])->name('grn-edit');
     Route::post('/grn-update', [GrnController::class, 'grnUpate'])->name('grn-update');
     Route::get('/grn-delete/{id}', [GrnController::class, 'grnDelete']);
+    Route::get('/grn-report/{id}', [GrnController::class, 'grnReport'])->name('grn-report');
 
     //Asset Purchase Order
 
@@ -223,6 +224,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/assetPurchaseOrder_{id}_edit', [AssetitemPoMstController::class, 'assetPurchaseOrderEdit'])->name('assetPurchaseOrder-edit');
     Route::post('/asset_purchase_order_update/{id}', [AssetitemPoMstController::class, 'assetPurchaseOrderUpdate'])->name('assetPurchaseOrder-update');
     Route::delete('/assetPurchaseOrder_{id}_destroy', [AssetitemPoMstController::class, 'assetPurchaseOrderDestroy'])->name('assetPurchaseOrder-destroy');
+    Route::get('/asset-purchase-order-report/{id}', [AssetitemPoMstController::class, 'assetPurchaseOrderReport'])->name('assetPurchaseOrder-report');
 
 });
 

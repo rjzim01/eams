@@ -15,6 +15,7 @@ use App\Models\Assetitem_po_mst;
 use App\Models\Assetitem_po_dtl;
 use App\Models\Spareparts_po_mst;
 use Illuminate\Support\Facades\Auth;
+use Barryvdh\DomPDF\Facade\Pdf;
 
 class GrnController extends Controller
 {
@@ -108,11 +109,14 @@ class GrnController extends Controller
     //         return redirect()->back();
     //     }
     // }
+
     public function grnStore(Request $request)
     {
+        //dd($request->all());
         // Validate the request data
         $validatedData = $request->validate([
             'assetitem_po_mst_id' => 'required',
+            'spareparts_po_mst_id' => 'required',
             'asset_item_po_dtls_id.*' => 'required',
             'categorymodel_id.*' => 'required',
             'brand_id.*' => 'required',
@@ -124,6 +128,7 @@ class GrnController extends Controller
         // Create a new Grn
         $grn = Grn::create([
             'assetitem_po_mst_id' => $validatedData['assetitem_po_mst_id'],
+            'spareparts_po_mst_id' => $validatedData['spareparts_po_mst_id'],
         ]);
 
         // Check if GRN was created successfully
@@ -136,11 +141,14 @@ class GrnController extends Controller
                     'categorymodel_id' => $request->input('categorymodel_id')[$key],
                     'brand_id' => $request->input('brand_id')[$key],
                     'unit_price' => $request->input('unit_price')[$key],
-                    //'quantity' => $request->input('quantity')[$key],
-                    //'total_amount' => $request->input('total_amount')[$key],
-                    //'uom_id' => $request->input('uom_id')[$key] ?? null, // Check if uom_id exists
                     'user_id' => Auth::id(),
                     'updated_by' => Auth::user()->name,
+                    'asset_status' => $request->input('asset_status')[$key],
+                    'supplier_id' => $request->input('supplier_id')[$key],
+                    'company_id' => $request->input('company_id')[$key],
+                    'currency_id' => $request->input('currency')[$key],
+                    // 'pruchase_date' =>,
+                    // 'stock_sts' =>,
                 ];
             }
 
@@ -154,7 +162,6 @@ class GrnController extends Controller
             return redirect()->back()->with('error', 'Failed to create GRN');
         }
     }
-
     function grnList(Request $request)
     {
         $grn = Grn::with('categorymodel', 'assetitem_po_mst', 'spareparts_po_mst', 'spartpart', 'brand', 'user')->orderBy('id', 'desc')->get();
@@ -168,8 +175,9 @@ class GrnController extends Controller
     }
     public function grnEdit($id)
     {
-        $asset_item_po = Assetitem_po_mst::where('id', $id)->first();
-        $asset_item_po_dtls = Assetitem_po_dtl::where('assetitem_po_mst_id', $id)->get();
+        $asset_item_po = Assetitem_po_mst::where('id', $id)->with('spareParts')->first();
+        $asset_item_po_dtls = Assetitem_po_dtl::where('assetitem_po_mst_id', $id)->with('assetItemPo', 'categoryModel', 'brand')->get();
+        //$purchaseOrder = Assetitem_po_mst::with('details', 'workshop', 'supplier', 'company', 'user')->findOrFail($id);
         $grn = Grn::where('id', $id)->first();
 
         $userrole = Auth::user()->rollmanage_id;
@@ -177,9 +185,8 @@ class GrnController extends Controller
             ->where('rollmanage_id', '=', $userrole)->get();
 
         return view("pages.grn.grn-edit-2", compact('roleaccess', 'grn', 'asset_item_po', 'asset_item_po_dtls'));
-        //return $asset_item_po_dtls;
+        //return $asset_item_po;
     }
-
     public function grnUpate(Request $request)
     {
         // $request->validate([
@@ -210,5 +217,17 @@ class GrnController extends Controller
         } else {
             return redirect()->back();
         }
+    }
+    public function grnReport($id)
+    {
+        //$purchaseOrder = Assetitem_po_mst::with('details', 'workshop', 'supplier', 'company', 'user')->findOrFail($id);
+        $purchaseOrder = Grn::with('categorymodel', 'assetitem_po_mst', 'spareparts_po_mst', 'spartpart', 'brand', 'user')->findOrFail($id);
+
+        $data = [
+            'purchaseOrder' => $purchaseOrder,
+        ];
+
+        $pdf = PDF::loadView('pages.grn.grn_report', $data);
+        return $pdf->download('grn_report.pdf');
     }
 }

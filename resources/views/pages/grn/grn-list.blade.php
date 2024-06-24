@@ -52,7 +52,7 @@
                                         <th scope="col">Stock Status</th>
                                         {{-- <th scope="col">Item Type</th> --}}
 
-                                        {{-- <th scope="col">Actions</th> --}}
+                                        <th scope="col">Actions</th>
 
                                     </tr>
                                 </thead>
@@ -81,7 +81,13 @@
 
                                             {{-- <a onclick="return confirm('Are you sure to delete ?')"
                                                     href="{{ url('grn-delete/' . $result->id) }}"
-                                                    class="badge rounded-pill text-bg-danger">Delete</a> --}}
+                                                    class="badge rounded-pill text-bg-danger">Delete</a>
+                                            </td>
+                                            --}}
+
+                                            <td>
+                                                <a href="{{ route('grn-report', $result->id) }}"
+                                                    class="btn btn-primary btn-sm mx-2">Report</a>
 
                                             </td>
                                         </tr>

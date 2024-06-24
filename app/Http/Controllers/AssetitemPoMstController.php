@@ -2,18 +2,19 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Assetitem_po_dtl;
-use App\Models\Assetitem_po_mst;
+use App\Models\Uom;
 use App\Models\Brand;
-use App\Models\Categorymodel;
 use App\Models\Company;
 use App\Models\Currency;
+use App\Models\Supplier;
+use App\Models\Workshop;
+use Barryvdh\DomPDF\Facade\Pdf;
 use App\Models\Objectaccess;
 use App\Models\Objecttorole;
-use App\Models\Supplier;
-use App\Models\Uom;
-use App\Models\Workshop;
 use Illuminate\Http\Request;
+use App\Models\Categorymodel;
+use App\Models\Assetitem_po_dtl;
+use App\Models\Assetitem_po_mst;
 use Illuminate\Support\Facades\Auth;
 
 class AssetitemPoMstController extends Controller
@@ -218,5 +219,21 @@ class AssetitemPoMstController extends Controller
 
         // Redirect back to the previous page
         return redirect()->back()->with('message', 'Asset Purchase Order deleted successfully.');
+    }
+
+    public function assetPurchaseOrderReport($id)
+    {
+        // $currencies = Currency::orderBy('id', 'desc')->get();
+        $purchaseOrder = Assetitem_po_mst::with('details', 'workshop', 'supplier', 'company', 'user')->findOrFail($id);
+
+        //dd($purchaseOrder);
+
+        $data = [
+            'purchaseOrder' => $purchaseOrder,
+            // 'currency'=>$currencies
+        ];
+
+        $pdf = PDF::loadView('pages.AssetPurchasePages.asset_purchase_order_report', $data);
+        return $pdf->download('asset_purchase_order_report.pdf');
     }
 }
