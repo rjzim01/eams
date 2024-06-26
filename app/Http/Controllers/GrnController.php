@@ -123,16 +123,18 @@ class GrnController extends Controller
             ->where('rollmanage_id', '=', $userrole)->get();
 
         return view("pages.grn.grn-edit-2", compact('roleaccess', 'grn', 'asset_item_po', 'asset_item_po_dtls'));
-        //return $asset_item_po;
+        //return $asset_item_po_dtls[0]->uom_id;
     }
     public function grnStore(Request $request)
     {
+        //dd(Auth::user()->name);
         //dd($request->all());
         // Validate the request data
         $validatedData = $request->validate([
             'assetitem_po_mst_id' => 'required',
             //'spareparts_po_mst_id' => 'required',
             //'company_id' => 'required',
+            'uom_id' => 'required',
             'asset_item_po_dtls_id.*' => 'required',
             'categorymodel_id.*' => 'required',
             'brand_id.*' => 'required',
@@ -141,14 +143,23 @@ class GrnController extends Controller
             'total_amount.*' => 'required|numeric',
         ]);
 
+        // Calculate the total amount
+        $totalAmount = array_sum($request->input('total_amount'));
+        $totalQuantity = array_sum($request->input('quantity'));
+        $totalunit_price = array_sum($request->input('unit_price'));
+
         // Create a new Grn
         $grn = Grn::create([
             'assetitem_po_mst_id' => $validatedData['assetitem_po_mst_id'],
             //'spareparts_po_mst_id' => $validatedData['spareparts_po_mst_id'],
             //'company_id' => $request->company_id,
-            'uom_id' => 1,
+            'uom_id' => $validatedData['uom_id'],
             'stock_status' => 'Pending',
             'user_id' => Auth::id(),
+            'updated_by' => Auth::user()->name,
+            'totla_amount' => $totalAmount,
+            'quantity' => $totalQuantity,
+            'unit_price' => $totalunit_price,
         ]);
 
         // Check if GRN was created successfully

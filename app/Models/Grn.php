@@ -15,6 +15,10 @@ class Grn extends Model
         'uom_id',
         'user_id',
         'stock_status',
+        'updated_by',
+        'totla_amount',
+        'quantity',
+        'unit_price',
         // Add other fields that you want to allow mass assignment on
     ];
 

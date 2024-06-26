@@ -87,6 +87,8 @@
                                                         value="{{ $asset_item_po->company_id }}" readonly>
                                                 </div>
                                             </div> --}}
+                                            <input type="hidden" class="form-control" name="uom_id"
+                                                value="{{ $asset_item_po_dtls[0]->uom_id }}">
 
                                         </div>
 
